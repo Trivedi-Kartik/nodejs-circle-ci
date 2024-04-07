@@ -2,7 +2,10 @@ version: 2.1
 jobs:
   run_test:
     docker:
-      - image: my-node-image:latest
+      - image: kt2505/my-node-image:latest
+       auth:
+          username: kt2505
+          password: Kartik@2505
     steps:
       - checkout
       - run: 
