@@ -1,7 +1,10 @@
-FROM node:16-alpine AS deps
+FROM node:16-alpine
 
 WORKDIR /app
 COPY package*.json ./
-RUN npm i
+RUN npm install
+COPY --chown=node:node . .
 COPY . ./
-RUN ["npm","run","start"]
+EXPOSE 5000
+
+CMD ["npm","run","start"]
