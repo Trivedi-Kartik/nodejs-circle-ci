@@ -3,11 +3,11 @@ jobs:
   run_test:
     docker:
       - image: kt2505/my-node-image:latest
-       auth:
-          username: kt2505
-          password: Kartik@2505
     steps:
       - checkout
+      - run:
+          name: Authenticate to Docker Hub
+          command: echo "Kartik@2505" | docker login -u "kt2505" --password-stdin
       - run: 
           name: Install npm dependencies
           command: npm install --save
