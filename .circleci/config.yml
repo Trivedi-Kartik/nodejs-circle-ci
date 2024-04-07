@@ -1,14 +1,14 @@
 version: 2.1
 jobs:
-  run_test:
+  run_project:
     docker:
       - image: kt2505/my-node-image:latest
     steps:
       - checkout
-      - run: 
-          name: Install npm dependencies
-          command: npm install --save
-     - run:
+      - run:
+          name: Install dependencies
+          command: npm install
+      - run:
           name: Run project
           command: npm start 
 
