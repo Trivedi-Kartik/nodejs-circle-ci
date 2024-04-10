@@ -1,6 +1,8 @@
 version: 2.1
 jobs:
   run_project:
+    docker:
+      - image: kt2505/my-node-image:latest
     steps:
       - checkout
       - run:
