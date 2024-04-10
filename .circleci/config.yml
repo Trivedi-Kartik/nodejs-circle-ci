@@ -1,22 +1,32 @@
 version: 2.1
+
 jobs:
-  run_project:
+  build:
     docker:
-      - image: kt2505/my-node-image:latest
+      - image: circleci/node:14.17
+
     steps:
       - checkout
+
+      # Install Docker
+      - setup_remote_docker
+
+      # Build Docker image
       - run:
-          name: Build Image
+          name: Build Docker Image
           command: |
-            docker build -t test_image .
+            docker build -t your_image_name .
+
+      # Push Docker image to a registry (e.g., Docker Hub)
       - run:
-          name: Deploy Image to Registry
+          name: Push Docker Image
           command: |
-            docker tag test_image kt2505/test_image:latest
-            docker push kt2505/test_image:latest
+            echo "Kartik@2505" | docker login -u "kt2505" --password-stdin
+            docker tag your_image_name "kt2505/your_image_name"
+            docker push "kt2505/your_image_name"
 
 workflows:
   version: 2
-  build_and_run:
+  build:
     jobs:
-      - run_project
+      - build
