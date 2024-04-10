@@ -6,11 +6,9 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Install dependencies
-          command: npm install
-      - run:
           name: Run project
-          command: npm start 
+          command: |
+            docker run -d -p 5000:5000 kt2505/my-node-image:latest npm start
 
 workflows:
   version: 2
