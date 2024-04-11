@@ -29,7 +29,7 @@ jobs:
       - run:
           name: Run Docker Container
           command: |
-            CONTAINER_ID=$(docker run -d -p 5000:5000 "kt2505/test_image" | tr -d '\r')
+            CONTAINER_ID=$(docker run -d -p 5000:5000 "kt2505/test_image")
             echo "Container started with ID: $CONTAINER_ID"
             if docker inspect --format '{{.State.Running}}' $CONTAINER_ID &> /dev/null; then
               echo "Container is already running."
@@ -37,6 +37,17 @@ jobs:
               echo "Container is not running. Starting...$CONTAINER_ID"
               docker start $CONTAINER_ID
             fi
+
+    docker_container_ip:
+    docker:
+      - image: circleci/node:14.17
+
+    steps:
+      - checkout
+
+      # Install Docker
+      - setup_remote_docker
+
       # Output container IP
       - run:
           name: Show Container IP
@@ -44,9 +55,9 @@ jobs:
             CONTAINER_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -q))
             echo "Server is running at http://$CONTAINER_IP:5000"
 
-
 workflows:
   version: 2
   build:
     jobs:
       - build
+      - docker_container_ip
