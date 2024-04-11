@@ -1,7 +1,7 @@
 version: 2.1
 
 jobs:
-  build_docker:
+  build:
     docker:
       - image: circleci/node:14.17
 
@@ -59,7 +59,9 @@ workflows:
   version: 2
   build:
     jobs:
-      - build_docker
+      - build
+
+      # Run docker_container_ip job after build job succeeds
       - docker_container_ip:
-        requires:
-          - build_docker
+          requires:
+            - build
