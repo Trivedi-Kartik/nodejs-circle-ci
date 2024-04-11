@@ -8,6 +8,11 @@ jobs:
     steps:
       - checkout
 
+      # Restore cache for Docker build
+      - restore_cache:
+          keys:
+            - docker-cache-{{ .Branch }}-{{ checksum "Dockerfile" }}
+
       # Install Docker
       - setup_remote_docker
 
@@ -16,7 +21,7 @@ jobs:
           name: Build Docker Image
           command: |
             docker build -t test_image .
-
+            
       # Push Docker image to a registry (e.g., Docker Hub)
       - run:
           name: Push Docker Image
@@ -24,6 +29,12 @@ jobs:
             echo "Kartik@2505" | docker login -u "kt2505" --password-stdin
             docker tag test_image "kt2505/test_image"
             docker push "kt2505/test_image"
+
+      # Save cache for Docker build
+      - save_cache:
+          key: docker-cache-{{ .Branch }}-{{ checksum "Dockerfile" }}
+          paths:
+            - /var/lib/docker
 
       # Run Docker container and capture the container ID
       - run:
