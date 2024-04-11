@@ -1,23 +1,35 @@
 version: 2.1
+
 jobs:
-  first_job:
+  build:
     docker:
-      - image: circleci/node:16
+      - image: circleci/node:14.17
 
     steps:
       - checkout
+
+      # Restore cache
       - restore_cache:
           keys:
-          - docker-cache-{{.Branch}}-{{checksum "Dockerfile"}}
+            - v1-dependencies-{{ checksum "package-lock.json" }}
+            # Add more cache keys as needed for different dependencies or files
+
+      # Install dependencies
       - run:
-          name: install library
+          name: Install Dependencies
           command: npm install
+
+      # Save cache
       - save_cache:
-          key: docker-cache-{{.Branch}}-{{checksum "Dockerfile"}}
+          key: v1-dependencies-{{ checksum "package-lock.json" }}
           paths:
-          - var/lib/docker
+            - node_modules
+            # Add more paths as needed for other cached directories
+
+      # Your other build steps go here
+
 workflows:
   version: 2
   build:
     jobs:
-      - first_job
+      - build
