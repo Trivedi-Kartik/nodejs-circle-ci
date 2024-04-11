@@ -46,7 +46,7 @@ jobs:
             if docker inspect --format '{{.State.Running}}' $CONTAINER_ID &> /dev/null; then
               echo "Container is already running."
             else
-              echo "Container is not running. Starting..."
+              echo "Container is not running. Starting...$CONTAINER_ID"
               docker start $CONTAINER_ID
             fi
 
