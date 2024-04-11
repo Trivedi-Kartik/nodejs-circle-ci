@@ -50,10 +50,10 @@ jobs:
 
       # Output container IP
       - run:
-        name: Show Container IP
-        command: |
-          CONTAINER_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -q))
-          echo "Server is running at http://$CONTAINER_IP:5000"
+          name: Show Container IP
+          command: |
+            CONTAINER_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -q))
+            echo "Server is running at http://$CONTAINER_IP:5000"
 
 workflows:
   version: 2
