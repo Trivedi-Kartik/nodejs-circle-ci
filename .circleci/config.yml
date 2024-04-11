@@ -14,7 +14,7 @@ jobs:
             - docker-cache-{{ .Branch }}-{{ checksum "Dockerfile" }}
 
       # Install Docker
-      - setup_remote_docker
+      #- setup_remote_docker
 
       # Build Docker image
       - run:
