@@ -7,12 +7,10 @@ jobs:
 
     steps:
       - checkout
-
       # Restore cache for Docker build
       - restore_cache:
           keys:
             - docker-cache-{{ .Branch }}-{{ checksum "Dockerfile" }}
-
       # Install Docker
       - setup_remote_docker
 
@@ -26,9 +24,10 @@ jobs:
       - run:
           name: Push Docker Image
           command: |
-            echo "Kartik@2505" | docker login -u "kt2505" --password-stdin
-            docker tag test_image "kt2505/test_image"
-            docker push "kt2505/test_image"
+            source .env 
+            echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+            docker tag test_image "$DOCKER_USERNAME/test_image"
+            docker push "$DOCKER_USERNAME/test_image"
 
       # Save cache for Docker build
       - save_cache:
@@ -71,7 +70,6 @@ workflows:
   build:
     jobs:
       - build
-
       # Run docker_container_ip job after build job succeeds
       - docker_container_ip:
           requires:
