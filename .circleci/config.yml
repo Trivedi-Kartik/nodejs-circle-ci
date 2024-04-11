@@ -15,21 +15,21 @@ jobs:
       - run:
           name: Build Docker Image
           command: |
-            docker build -t your_image_name .
+            docker build -t test_image .
 
       # Push Docker image to a registry (e.g., Docker Hub)
       - run:
           name: Push Docker Image
           command: |
             echo "Kartik@2505" | docker login -u "kt2505" --password-stdin
-            docker tag your_image_name "kt2505/your_image_name"
-            docker push "kt2505/your_image_name"
+            docker tag test_image "kt2505/test_image"
+            docker push "kt2505/test_image"
 
     # Run Docker container
       - run:
           name: Run Docker Container
           command: |
-            docker run -d -p 5000:5000 "kt2505/your_image_name"
+            docker run -d -p 5000:5000 "kt2505/test_image"
 workflows:
   version: 2
   build:
