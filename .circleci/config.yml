@@ -2,14 +2,20 @@ version: 2.1
 jobs:
   first_job:
     docker:
-      - image: circleci/node:16
+      - image: circleci/node:21
 
     steps:
       - checkout
+      - restore_cache:
+          keys:
+          - docker-cache-{{.Branch}}-{{checksum "Dockerfile"}}
       - run:
           name: install library
           command: npm install
-
+      - save_cache:
+          key: docker-cache-{{.Branch}}-{{checksum "Dockerfile"}}
+          paths:
+          - var/lib/docker
 workflows:
   version: 2
   build:
