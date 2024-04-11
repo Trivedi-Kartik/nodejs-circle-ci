@@ -31,7 +31,12 @@ jobs:
           command: |
             CONTAINER_ID=$(docker run -d -p 5000:5000 "kt2505/test_image" | tr -d '\r')
             echo "Container started with ID: $CONTAINER_ID"
-
+            if docker inspect --format '{{.State.Running}}' $CONTAINER_ID &> /dev/null; then
+              echo "Container is already running."
+            else
+              echo "Container is not running. Starting...$CONTAINER_ID"
+              docker start $CONTAINER_ID
+            fi
       # Output container IP
       - run:
           name: Show Container IP
@@ -39,16 +44,6 @@ jobs:
             CONTAINER_IP=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(docker ps -q))
             echo "Server is running at http://$CONTAINER_IP:5000"
 
-      # Check if Docker container is running
-      - run:
-          name: Check Container Status
-          command: |
-            if docker inspect --format '{{.State.Running}}' $CONTAINER_ID &> /dev/null; then
-              echo "Container is already running."
-            else
-              echo "Container is not running. Starting...$CONTAINER_ID"
-              docker start $CONTAINER_ID
-            fi
 
 workflows:
   version: 2
