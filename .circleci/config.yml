@@ -26,7 +26,6 @@ jobs:
           command: |
             source .env 
             echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-            docker tag test_image "$DOCKER_USERNAME/test_image"
             docker push "$DOCKER_USERNAME/test_image"
 
       # Save cache for Docker build
