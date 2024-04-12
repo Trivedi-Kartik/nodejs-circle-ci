@@ -4,6 +4,7 @@ jobs:
    docker:
       - image: circle/node:14.17
    steps:
+      - checkout
       - run:
           name: Npm Lib
           command: npm install
