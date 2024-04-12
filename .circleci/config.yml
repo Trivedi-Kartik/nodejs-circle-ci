@@ -7,9 +7,6 @@ jobs:
       - run:
           name: Npm Lib
           command: npm install
-      - run:
-          name: build docker
-          command: docker build -t demo_image .
   
 workflows:
   version: 2
